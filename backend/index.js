@@ -13,6 +13,7 @@ const update_bookRouter = require("./routes/books/update_bookRouter");
 const issue_booksRouter = require("./routes/issue_booksRouter");
 const return_booksRouter = require("./routes/return_bookRouter");
 const adminRouter = require("./routes/adminRouter");
+const loginRouter = require("./routes/loginRouter");
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -39,7 +40,7 @@ app.use("/dashboard/books", update_bookRouter);
 app.use("/dashboard/students/issue_books" , issue_booksRouter);
 app.use("/dashboard/students/return_books", return_booksRouter);
 app.use("/dashboard/admin" , adminRouter);
-
+app.use("/login",loginRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
