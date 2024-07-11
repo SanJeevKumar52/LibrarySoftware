@@ -1,6 +1,8 @@
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation"; // Import the useRouter hook
+import axios from "axios"; // Import Axios
 import styles from "./loginForm.module.css";
 
 const LoginForm = () => {
@@ -11,22 +13,22 @@ const LoginForm = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:4000/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
+      const response = await axios.post('http://localhost:4000/login', {
+        username,
+        password,
       });
 
-      if (response.ok) {
+      if (response.status === 200) {
         router.push("/dashboard"); // Use router.push to navigate to the dashboard page
       } else {
-        const errorData = await response.json();
-        alert(errorData.message);
+        alert(response.data.message);
       }
     } catch (error) {
-      alert("An error occurred while logging in. Please try again.");
+      if (error.response) {
+        alert(error.response.data.message); // Server-side error
+      } else {
+        alert("An error occurred while logging in. Please try again."); // Client-side error
+      }
     }
   };
 
@@ -56,4 +58,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginForm ;
